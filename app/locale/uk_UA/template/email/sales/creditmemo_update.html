@@ -1,0 +1,35 @@
+<!--@subject {{var order.getStoreGroupName()}}: Credit Memo # {{var creditmemo.increment_id}} update @-->
+<style type="text/css">body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }</style>
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+<table cellspacing="0" cellpadding="0" border="0" width="98%" style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+<tr>
+    <td align="center" valign="top">
+        <!-- [ header starts here] -->
+        <table cellspacing="0" cellpadding="0" border="0" width="650">
+        <tr>
+            <td valign="top"><a href="{{store url=""}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}" border="0"/></a></td>
+        </tr>
+        </table>
+
+        <!-- [ middle starts here] -->
+        <table cellspacing="0" cellpadding="0" border="0" width="650">
+        <tr>
+            <td valign="top">
+                <p>
+                    <strong>Шановний {{var order.getCustomerName()}}</strong>,<br/>
+                    Ваше замовлення за номером {{var order.increment_id}} has been <br/>
+                    <strong>{{var order.getStatusLabel()}}</strong>.
+                </p>
+                <p>Ви можете перевірити статус Вашого замовлення тут <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;"> після того, як залогінетесь в систему.</a>.</p>
+                <p>{{var comment}}</p>
+                <p>
+                    Якщо у Вас є питання щодо Вашого замовлення, будь-ласка, напишіть нам <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> або зателефонуйте за номером <span class="nobr">{{config path='general/store_information/phone'}}</span> {{config path='general/store_information/store_hours'}}.
+                </p>
+                <p>Ще раз Вам дякуємо,<br/><strong>{{var order.getStoreGroupName()}}</strong></p>
+            </td>
+        </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</div>

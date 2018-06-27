@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Colorswitcher - Magento Extension
+ *
+ * @category    MaxVision
+ * @package     Colorswitcher
+ * @copyright   Copyright (c) 2015 MaxVision <maxyvision@gmail.com>
+ * @version 0.1.0
+**/
+-->
+<config>
+    <modules>
+        <MaxVision_Colorswitcher>
+            <version>0.1.0</version>
+        </MaxVision_Colorswitcher>
+    </modules>
+    <global>
+        <blocks>
+            <colorswitcher>
+                    <class>MaxVision_Colorswitcher_Block</class>
+            </colorswitcher>
+        </blocks>
+        <helpers>
+            <colorswitcher>
+                <class>MaxVision_Colorswitcher_Helper</class>
+            </colorswitcher>
+        </helpers>
+    </global>
+	<frontend>
+        <routers>
+            <colorswitcher>
+                <use>standard</use>
+                <args>
+                    <module>MaxVision_Colorswitcher</module>
+                    <frontName>colorswitcher</frontName>
+                </args>
+            </colorswitcher>
+        </routers>
+        <layout>
+            <updates>
+                <colorswitcher module="MaxVision_Colorswitcher">
+                    <file>maxvision/colorswitcher.xml</file>
+                </colorswitcher>
+            </updates>
+        </layout>
+    </frontend>
+</config>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Colorswitcher - Magento Extension
+ *
+ * @category    MaxVision
+ * @package     Colorswitcher
+ * @copyright   Copyright (c) 2015 MaxVision <maxyvision@gmail.com>
+**/
+-->
+<layout version="0.1.0">
+    <default> 
+        <reference name="head">
+            <action method="addItem" ifconfig="maxvision_colorswitcher/colorswitcher_setting/enabled"><type>skin_css</type><name>colorswitcher/css/colorswitcher.css</name></action>
+        </reference>
+    </default>
+    <catalog_product_view translate="label"> 
+        <reference name="head">
+            <action method="removeItem" ifconfig="maxvision_colorswitcher/colorswitcher_setting/enabled"><type>js</type><name>varien/configurable.js</name></action>
+            <action method="addJs" ifconfig="maxvision_colorswitcher/colorswitcher_setting/enabled"><script>maxvision/colorswitcher/configurable.js</script></action>
+            <action method="addJs" ifconfig="maxvision_colorswitcher/colorswitcher_setting/enabled"><script>maxvision/colorswitcher/dropdown.js</script></action>
+        </reference>
+    </catalog_product_view>
+    <PRODUCT_TYPE_configurable translate="label" module="maxvision_colorswitcher">
+        <reference name="product.info.options.wrapper">
+            <block type="colorswitcher/product_view_type_configurable" name="product.info.options.configurable" as="options_configurable" before="-" />
+        </reference>
+    </PRODUCT_TYPE_configurable>
+</layout>

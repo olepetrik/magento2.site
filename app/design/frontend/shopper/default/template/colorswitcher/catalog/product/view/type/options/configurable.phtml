@@ -1,0 +1,188 @@
+<?php
+/**
+ * Colorswitcher - Magento Extension
+ *
+ * @category    MaxVision
+ * @package     Colorswitcher
+ * @copyright   Copyright (c) 2015 MaxVision <maxyvision@gmail.com>
+**/
+
+$_product    = $this->getProduct();
+$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
+$skinUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN);
+$dropdownarrow = $this->getSkinUrl('colorswitcher/images/icoDropdown.gif',array('_secure'=>true));  //одержали шлях до іконки зі стрілкою для dropdown
+?>
+<?php if ($_product->isSaleable() && count($_attributes)):?>
+    <?php foreach($_attributes as $_attribute): ?>
+        <?php
+        $attrid = $_attribute->getAttributeId();
+        $attrcode = $_attribute->getProductAttribute()->getAttributeCode();
+        if($attrcode == 'color'): ?>
+            <div class="product-details-information-colors">
+                <p>Колір взуття:</p>
+                <select name="super_attribute[<?php echo $attrid ?>]" id="attribute<?php echo $attrid ?>" class="required-entry super-attribute-select particular-option"></select>
+            </div>
+        <?php else: ?>
+            <select style="display:none" name="super_attribute[<?php echo $attrid ?>]" id="attribute<?php echo $attrid ?>" class="required-entry super-attribute-select shoes-sizes-select"></select>
+            <p>Розмір взуття:</p>
+            <div class="product-details-information-sizes" style="display:none">
+                <ul class="product-details-information-sizes-list"></ul>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+    <script type="text/javascript">
+        Product.Config.prototype.formatPrice = function(price, showSign){
+            return '';
+        }
+        var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+        var loaded = false;   // буде вказувати чи вибрано колір взуття
+        var idattribcolor = <?php echo Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'color'); ?>;
+
+        jQuery(document).ready(function(e) {
+
+            var skinUrl = '<?php echo $dropdownarrow; ?>';     // одержали шлях до іконки зі стрілкою для dropdown
+            jQuery('.particular-option').dropdown(skinUrl);    // оформили додатковий дропдаун кольорів dropdownOptionsList ul li
+            jQuery('p.required').hide();                       // сховали повідомлення * Обов'язкові поля для заповнення
+
+            // міняємо функціонал кнопки "Додати в Кошик"
+            jQuery(document).on('click','.btn-cart',function(){
+                if(jQuery('.particular-option').val() && jQuery('.shoes-sizes-select').val()) {     // якщо вибрали і колір і розмір
+                    productAddToCartForm.submit(this);                                              // виконуєм стандартну функцію Magento див. в view.phtml
+                    return true;
+                } else {
+                    return false;                                       // інакше вертаємо сторінку. Висвічується маджентовське повідомлення про необхідність вибору супер атрибутів.
+                }
+            });
+
+            // очищаємо попередній вибраний розмір
+            clearSizeActive();
+
+            // працюємо зі створеним функцією dropdown() випадаючим списком кольорів
+            // Якщо ми змінюєм колір - виконуються наступні інструкції
+            jQuery('.dropdownOptionsList li').click(function(){        // коли клікаєм на колір
+                var val = jQuery(this).attr('data-value');             // одержуєм значення id атрибуту color
+                jQuery('.particular-option').val(val);                 // виставляєм для прихованого select значення id color
+                var element = jQuery('.shoes-sizes-select')[0];        // одержуєм прихований html tag <select display=none ...<option>...</option></select> для розмірів взуття
+                jQuery('.shoes-sizes-select').removeAttr('disabled');  // видаляємо атрибут disable прихованого Select для розмірів
+                spConfig.fillSelect(element);                          // перебудовуєм прихований Select з розмірами мештів вибраного кольору див. configurable.js
+                jQuery('.shoes-sizes-select').change();                // викликаємо подію change елемента Select
+            });
+
+            // прив'язуєм подію click на всі елементи product-details-information-sizes-item (навіть, якщо вони появляться пізніше) (це квадратики з розмірами)
+            jQuery('.product-details-information-sizes-item').live('click', function(){
+                var el = jQuery(this);                                                // елемент li (квадратик з розміром)
+                var sizeId = el.attr('id').substr(3);                                 // дістаємо атрибут id (код відповідного розміру
+
+                // очищаємо попередній вибраний розмір
+                clearSizeActive();
+
+                // працюємо з прихованим select-ом розмірів взуття
+                jQuery('.shoes-sizes-select option[value="'+sizeId+'"]').attr('selected','selected');       // вибираємо відповідний option з вибраним id атрибутом
+                                                                               // при цьому має відпрацювати подія jQuery('.shoes-sizes-select').change(). Див. нижче.
+                // знову працюємо з li квадратиками
+                el.addClass('product-details-information-sizes-item-active');                               // виставляємо у вибраному li активний клас (підсвітка)
+//                reloadPrice();
+                spConfig.reloadPrice();
+            });
+
+            // будемо реагувати на зміну розміра взуття, якщо в shoes-sizes-select зміниться option - виконати наступні інструкції
+            jQuery('.shoes-sizes-select').change(function(){
+                fillSizes();                                      // будуємо квадратики розмірів
+                if(loaded || !getParameterByName('color')) {      // якщо не вибраний колір
+                    setImages( false);                            //
+                }
+                spConfig.reloadPrice();
+            });
+
+            if(getParameterByName('color')) {
+                setImages(getParameterByName('color'));
+                loaded = true;
+            }
+
+            // виконуєм клік (активуємо) другий елемент випадаючого списку кольорів (перший є "Виберіть...")
+            // Спрацьовує jQuery('.dropdownOptionsList li').click()
+
+            jQuery('.product-details-information-colors ul li').eq(1).click();
+
+        });
+
+        // Функція побудови квадратиків розмірів в елементі <ul class=product-details-information-sizes-list>
+        function fillSizes() {
+            var list = jQuery('.product-details-information-sizes-list');
+            list.html('');
+            jQuery.each(jQuery('.shoes-sizes-select option'),function(){
+                if(Translator.translate('Choose an Option...') != jQuery(this).html() && '' != jQuery(this).html()) {
+                    list.append(
+                        '<li id="sz-'+jQuery(this).val()+'" class="product-details-information-sizes-item">'+jQuery(this).html()+'</li>'
+                    );
+                }
+            });
+            jQuery('.product-details-information-sizes').show();
+        }
+
+        // очистка активного розміру
+        function clearSizeActive() {
+            jQuery('.shoes-sizes-select option').removeAttr('selected');                                                    // відміняємо поточной option
+            jQuery('.product-details-information-sizes-item').removeClass('product-details-information-sizes-item-active'); // видаляємо в усіх li активний клас (підсвітку)
+        }
+
+
+        function setImages(val)
+        {
+
+            var attr = new Object;
+            if(val) {
+                jQuery('li[data-value="'+val+'"]').click();
+                attr[idattribcolor] = val;
+                attr[jQuery('.shoes-sizes-select').attr('id').substr(9)] = jQuery('.shoes-sizes-select').find('option').eq(1).val();
+            } else {
+                attr[idattribcolor] = jQuery('.super-attribute-select').first().val();
+                attr[jQuery('.shoes-sizes-select').attr('id').substr(9)] = jQuery('.shoes-sizes-select').find('option').eq(1).val();
+            }
+
+            jQuery.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "http://"+location.host+"/colorswitcher/ajax/getImages",
+                data: {'super_attribute':attr,'product':'<?php echo $this->getProduct()->getId(); ?>'},
+                success: function(response){
+                    if(response.images != '') {
+                        jQuery('.jcarousel-clip ul').html(response.images);                      // вставляємо нові <li> з картинками
+                        jQuery('.cloud-zoom').attr('href',response.href);               // вказуємо основну картинку для cloud zoom
+                        jQuery('.cloud-zoom img').attr('src',response.thumbnail);       // виставляємо основну картинку
+
+                        jQuery('.cloud-zoom, .cloud-zoom-gallery').CloudZoom();
+                    }
+                    jQuery('.price').html(response.price);
+
+                }
+            });
+        }
+
+        function reloadPrice()
+        {
+            var attr = new Object;
+            attr[idattribcolor] =jQuery('.super-attribute-select').first().val();
+            attr[jQuery('.shoes-sizes-select').attr('id').substr(9)] = jQuery('.shoes-sizes-select').val();
+
+            jQuery.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "http://"+location.host+"/colorswitcher/ajax/getPrice",
+                data: {'super_attribute':attr,'product':'<?php echo $this->getProduct()->getId(); ?>'},
+                success: function(response){
+                    jQuery('.price').html(response);
+                }
+            });
+        }
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results == null ? false : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+    </script>
+<?php endif;?>

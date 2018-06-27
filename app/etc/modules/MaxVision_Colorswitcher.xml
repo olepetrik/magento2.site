@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Colorswitcher - Magento Extension
+ *
+ * @category    MaxVision
+ * @package     Colorswitcher
+ * @copyright   Copyright (c) 2015 MaxVision <maxyvision@gmail.com>
+ * @version     0.1.0
+**/
+-->
+<config>
+     <modules>
+        <MaxVision_Colorswitcher>
+            <active>true</active>
+            <codePool>local</codePool>
+        </MaxVision_Colorswitcher>
+     </modules>
+</config>

@@ -1,0 +1,49 @@
+<!--@subject Welcome, {{var customer.name}}! @-->
+
+<style type="text/css">
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+</style>
+
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+    <table cellspacing="0" cellpadding="0" border="0" width="98%" style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+        <tr>
+            <td align="center" valign="top">
+                <!-- [ header starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <a href="{{store url=""}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}" border="0"/></a></td>
+                    </tr>
+                </table>
+
+                <!-- [ middle starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <p><strong>Шановний {{var customer.name}}</strong>,<br/>
+                                Ласкаво просимо до товариства {{var store.getFrontendName()}}. Щоб залогінитись в систему, при відвідуванні сайту, натисніть лінк <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">Вхід</a> або <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">Моя сторінка</a> вверху сайта, на кожній сторінці, а тоді введіть Вашу e-mail адресу і пароль.</p>
+
+                            <p>Коли Ви входите у ваш аккаунт, Ви отримуєте наступні переваги:</p>
+                            <ul>
+                                <li>Процес оформлення замовлення відбувається швидше;</li>
+                                <li>Ви можете перевіряти статус Вашого замовлення;</li>
+                                <li>Ви можете переглядати історію Ваших замовлень;</li>
+                                <li>Ви можете змінювати персональні дані вашого аккаунта;</li>
+                                <li>Ви можете міняти пароль;</li>
+                                <li>Ви можете добавляти альтернативні адреси (для доставки замовлень на адресу друзів або членів сім'ї!).</li>
+                            </ul>
+                            <p>Якщо у Вас є будь-які питання з приводу аккаунта або інші питання, будь ласка, не соромтесь звертатися до нас за адресою <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> або зателефонуйте за номером <span class="nobr">{{config path='general/store_information/phone'}}</span> {{config path='general/store_information/store_hours'}}.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #BEBCB7;background-color: #EAEAEA; text-align: center;">
+                            <p style="font-size:12px; text-align: center;">Дякуємо,</p>
+                            <p style="font-size:12px; margin-bottom: 10px; text-align: center;"><strong>{{var store.getFrontendName()}}</strong></p>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</div>
