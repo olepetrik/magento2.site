@@ -1778,7 +1778,7 @@ html[xmlns] .slides {display: block;}
 .carousel li {margin-right: 5px}
 
 .flexslider .slides .row{position:relative;}
-.flexslider .slides .content{float:left; max-width:1000px; margin:30px 100px; color:#454746); color:rgba(0,0,0, 0.6); text-align:center; }
+.flexslider .slides .content{float:left; max-width:1000px; margin:30px 100px; color:#454746; color:rgba(0,0,0, 0.6); text-align:center; }
 .flexslider .slides .content strong{font-family:"Myriad Pro",sans-serif; font-size:60px; font-weight:300; text-transform:uppercase; line-height:50px; color:#454746; color:rgba(0,0,0, 0.8); }
 .flexslider .slides .content .border{margin:15px 10px; height:1px; background:#bfc5c3; background:rgba(0,0,0,0.09); }
 .flexslider .slides .content p{margin:0; font-size:14px;}

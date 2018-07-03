@@ -232,5 +232,16 @@ $empty_category_block = Mage::getModel('cms/block')
     <div class="toolbar-bottom">
         <?php echo $this->getToolbarHtml() ?>
     </div>
+
+    <div class="clearfix">
+        <?php
+        $cms_block = Mage::getModel('cms/block')
+            ->setStoreId( Mage::app()->getStore()->getId() )
+            ->load('shopper_footer_banners_category_3');
+        if($cms_block->getIsActive()) {
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('shopper_footer_banners_category_3')->toHtml();
+        } ?>
+    </div>
+
 </div>
 <?php endif; ?>

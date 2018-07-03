@@ -27,9 +27,9 @@ $imgY = $helper->calculateHeight($imgX);
 $time = time() + mt_rand(0, 1000);
 ?>
 <?php if($_productCollection->count()): ?>
-<div class="product-slider-container">
-    <div class="clearfix title-container">
-        <h2><?php echo $this->__($this->getBlockTitle());?></h2>
+<div class="slider-container">
+    <div  class="clearfix title-container">
+        <h3><?php echo $this->__($this->getBlockTitle());?></h3>
         <a href="#" class="jcarousel-prev-horizontal" id="shopper_carousel_prev<?php echo $time; ?>"></a>
         <a href="#" class="jcarousel-next-horizontal" id="shopper_carousel_next<?php echo $time; ?>"></a>
     </div>
@@ -185,16 +185,21 @@ $time = time() + mt_rand(0, 1000);
 		    lineUp();
 	    }
 
+
         $(carouselID).jcarousel({
             scroll: 1,
+            auto: true,
+            auto: 4,
+            animation: 'slow',
+            wrap: 'circular',
             initCallback: mycarousel_initCallback,
-	        reloadCallback: mycarousel_reloadCallback,
+            reloadCallback: mycarousel_reloadCallback,
             buttonNextHTML: null,
-            buttonPrevHTML: null
+            buttonPrevHTML: null,
         });
 
-    });
 
+    });
     //]]>
 </script>
 
