@@ -31,15 +31,19 @@ $action = Mage::app()->getFrontController()->getRequest()->getActionName();
 <!-- footer BOF -->
 <div class="footer-container">
     <?php if ( !($route == 'customer' && ($action == 'login' || $action == 'forgotpassword' || $action == 'create')) ) : ?>
+    <?php if ($route == 'cms'){ ?>
     <div class="footer-banners">
-	    <?php $cms_block = Mage::getModel('cms/block')
+	    <?php
+        $cms_block = Mage::getModel('cms/block')
 		    ->setStoreId( Mage::app()->getStore()->getId() )
-		    ->load('shopper_footer_banners');
+		    ->load('shopper_footer_banners_home');
 	    if($cms_block->getIsActive()) {
-		    echo $this->getLayout()->createBlock('cms/block')->setBlockId('shopper_footer_banners')->toHtml();
-	    }
+		    echo $this->getLayout()->createBlock('cms/block')->setBlockId('shopper_footer_banners_home')->toHtml();
+        }
 	    ?>
     </div>
+        <?php }?>
+
     <div class="footer-info">
         <div class="row clearfix facebook">
 

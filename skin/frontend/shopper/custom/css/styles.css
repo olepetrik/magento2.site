@@ -692,8 +692,8 @@ tr.summary-details-excluded { font-style:italic; }
 
 /* Special price */
 .special-price {}
-.special-price .price-label { font-weight:bold; white-space:nowrap; }
-.special-price .price { font-weight:bold; }
+.special-price .price-label { font-weight:bold; white-space:nowrap; font-size:15px;}
+.special-price .price { font-weight:bold;}
 
 /* Minimal price (as low as) */
 .minimal-price {}

@@ -212,8 +212,7 @@
                     <action method="setColumnCount"><columns>4</columns></action>
                     <action method="setItemLimit"><type>upsell</type><limit>44</limit></action>
                 </block>
-                <block type="catalog/product_list_related" name="content.product.related" as="content_related" template="catalog/product/list/related_content.phtml"/>
-        </reference>
+		</reference>
 
 		<reference name="product.info.additional">
             <action method="unsetChild" ><name>product_tag_list</name></action>
@@ -222,7 +221,11 @@
                 <action method="addTab" translate="title" module="catalog" ><alias>description_tabbed</alias><title>Description</title><block>catalog/product_view_description</block><template>catalog/product/view/description.phtml</template></action>
                 <!--<action method="addTab" translate="title" module="catalog" ><alias>additional_tabbed</alias><title>Additional</title><block>catalog/product_view_attributes</block><template>catalog/product/view/attributes.phtml</template></action>-->
                 <!--<action method="addTab" translate="title" module="tag" ><alias>tags_tabbed</alias><title>Tags</title><block>tag/product_list</block><template>tag/list.phtml</template></action>-->
-                <action method="addTab" translate="title" module="review" ><alias>review_tabbed</alias><title>Reviews</title><block>review/product_view_list</block><template>review/product_info_review.phtml</template></action>
+				<action method="addTab" translate="title" module="review" ><alias>review_tabbed</alias><title>Reviews</title><block>review/product_view_list</block><template>review/product_info_review.phtml</template></action>
+            </block>
+			<block type="catalog/product_list_related" name="catalog.product.related" after="product.info.tabs" template="catalog/product/list/related_content.phtml"/>
+            <block type="cms/block" name="shopper_footer_banners_category_4" after="catalog.product.related">
+                <action method="setBlockId"><block_id>shopper_footer_banners_category_4</block_id></action>
             </block>
 		</reference>
 
@@ -234,7 +237,6 @@
         <reference name="product.info.upsell">
             <action method="setItemLimit"><type>upsell</type><limit>44</limit></action>
         </reference>
-
 	</catalog_product_view>
 
 	<reviews>
