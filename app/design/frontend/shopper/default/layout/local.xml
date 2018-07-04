@@ -227,6 +227,7 @@
             <block type="cms/block" name="shopper_footer_banners_category_4" after="catalog.product.related">
                 <action method="setBlockId"><block_id>shopper_footer_banners_category_4</block_id></action>
             </block>
+     
 		</reference>
 
         <reference name="product.info.options.wrapper.bottom">
@@ -237,6 +238,7 @@
         <reference name="product.info.upsell">
             <action method="setItemLimit"><type>upsell</type><limit>44</limit></action>
         </reference>
+
 	</catalog_product_view>
 
 	<reviews>

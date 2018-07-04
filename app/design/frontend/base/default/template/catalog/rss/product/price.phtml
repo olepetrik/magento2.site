@@ -246,7 +246,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                     </p>
                 <?php else: ?>
                     <p class="special-price">
-                        <span style="color:red" class="price-label"><?php echo $this->__('Special Price:') ?></span>
+                        <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
                         <span class="price"
                               id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_finalPrice + $_weeeTaxAmountInclTaxes, true, false) ?></span>
                     </p>
